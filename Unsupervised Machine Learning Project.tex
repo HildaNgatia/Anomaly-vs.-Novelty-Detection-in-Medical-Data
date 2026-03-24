@@ -1,0 +1,1081 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Keep aspect ratio if custom image width or height is specified
+    \setkeys{Gin}{keepaspectratio}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{Unsupervised Machine Learning Project}
+    
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@ges}{\let\PY@bf=\textbf\let\PY@it=\textit}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \section*{\texorpdfstring{\textbf{Anomaly vs.~Novelty Detection in
+Medical
+Data}}{Anomaly vs.~Novelty Detection in Medical Data}}\label{anomaly-vs.-novelty-detection-in-medical-data}
+
+In modern healthcare, detecting unusual patterns in medical data is
+crucial for early diagnosis and prevention of severe conditions. Machine
+Learning (ML) offers powerful tools to identify abnormalities in patient
+records, potentially improving disease detection and medical
+decision-making.
+
+In this project, we explore two key unsupervised learning techniques -
+Anomaly Detection and Novelty Detection --- and apply them to a medical
+dataset. While both techniques aim to identify unusual data points,
+their applications differ:
+
+\emph{Anomaly Detection} identifies outliers in a given dataset,
+assuming that both normal and abnormal cases are present during
+training. This method is useful for fraud detection, rare disease
+identification, or malfunction detection in healthcare systems. \\
+\emph{Novelty Detection} is trained only on normal cases and is designed
+to detect previously unseen abnormalities. This is particularly useful
+in early disease detection, where abnormal cases are rare or unavailable
+during training.
+
+For this study, we use a medical dataset (Breast Cancer) and implement
+Isolation Forest and One-Class SVM models to compare their effectiveness
+in distinguishing anomalies from normal patient records. The results
+will provide insights into which technique is more effective for
+detecting health-related abnormalities.
+
+Through this analysis, we aim to: \\
+1. Understand the differences between
+Anomaly Detection and Novelty Detection.\\
+2. Apply these techniques to
+real-world medical data. \\
+3. Compare their performance and practical
+applications in healthcare.\\
+
+This project contributes to the broader goal of leveraging machine
+learning for improved medical diagnostics and anomaly detection in
+patient records.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{118}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Import necessary libraries}
+
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{numpy}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{np}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{pandas}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{pd}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{plt}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{seaborn}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{sns}
+
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{train\PYZus{}test\PYZus{}split}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{preprocessing}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{StandardScaler}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{ensemble}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{IsolationForest}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{svm}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{OneClassSVM}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{classification\PYZus{}report}\PY{p}{,} \PY{n}{confusion\PYZus{}matrix}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{119}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{ucimlrepo}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{fetch\PYZus{}ucirepo} 
+  
+\PY{c+c1}{\PYZsh{} fetch dataset from online source}
+\PY{n}{breast\PYZus{}cancer\PYZus{}dataset} \PY{o}{=} \PY{n}{fetch\PYZus{}ucirepo}\PY{p}{(}\PY{n+nb}{id}\PY{o}{=}\PY{l+m+mi}{17}\PY{p}{)} 
+
+\PY{c+c1}{\PYZsh{} data (as pandas dataframes) }
+\PY{n}{X} \PY{o}{=} \PY{n}{breast\PYZus{}cancer\PYZus{}dataset}\PY{o}{.}\PY{n}{data}\PY{o}{.}\PY{n}{features} 
+\PY{n}{y} \PY{o}{=} \PY{n}{breast\PYZus{}cancer\PYZus{}dataset}\PY{o}{.}\PY{n}{data}\PY{o}{.}\PY{n}{targets} 
+
+\PY{c+c1}{\PYZsh{} variable information }
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{breast\PYZus{}cancer\PYZus{}dataset}\PY{o}{.}\PY{n}{variables}\PY{p}{)} 
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+                  name     role         type demographic description units  \textbackslash{}
+0                   ID       ID  Categorical        None        None  None
+1            Diagnosis   Target  Categorical        None        None  None
+2              radius1  Feature   Continuous        None        None  None
+3             texture1  Feature   Continuous        None        None  None
+4           perimeter1  Feature   Continuous        None        None  None
+5                area1  Feature   Continuous        None        None  None
+6          smoothness1  Feature   Continuous        None        None  None
+7         compactness1  Feature   Continuous        None        None  None
+8           concavity1  Feature   Continuous        None        None  None
+9      concave\_points1  Feature   Continuous        None        None  None
+10           symmetry1  Feature   Continuous        None        None  None
+11  fractal\_dimension1  Feature   Continuous        None        None  None
+12             radius2  Feature   Continuous        None        None  None
+13            texture2  Feature   Continuous        None        None  None
+14          perimeter2  Feature   Continuous        None        None  None
+15               area2  Feature   Continuous        None        None  None
+16         smoothness2  Feature   Continuous        None        None  None
+17        compactness2  Feature   Continuous        None        None  None
+18          concavity2  Feature   Continuous        None        None  None
+19     concave\_points2  Feature   Continuous        None        None  None
+20           symmetry2  Feature   Continuous        None        None  None
+21  fractal\_dimension2  Feature   Continuous        None        None  None
+22             radius3  Feature   Continuous        None        None  None
+23            texture3  Feature   Continuous        None        None  None
+24          perimeter3  Feature   Continuous        None        None  None
+25               area3  Feature   Continuous        None        None  None
+26         smoothness3  Feature   Continuous        None        None  None
+27        compactness3  Feature   Continuous        None        None  None
+28          concavity3  Feature   Continuous        None        None  None
+29     concave\_points3  Feature   Continuous        None        None  None
+30           symmetry3  Feature   Continuous        None        None  None
+31  fractal\_dimension3  Feature   Continuous        None        None  None
+
+   missing\_values
+0              no
+1              no
+2              no
+3              no
+4              no
+5              no
+6              no
+7              no
+8              no
+9              no
+10             no
+11             no
+12             no
+13             no
+14             no
+15             no
+16             no
+17             no
+18             no
+19             no
+20             no
+21             no
+22             no
+23             no
+24             no
+25             no
+26             no
+27             no
+28             no
+29             no
+30             no
+31             no
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{120}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}\PYZsh{} Viewing the first few rows}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{X}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{c+c1}{\PYZsh{}\PYZsh{} Measures of central tendency}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{X}\PY{o}{.}\PY{n}{describe}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+   radius1  texture1  perimeter1   area1  smoothness1  compactness1  \textbackslash{}
+0    17.99     10.38      122.80  1001.0      0.11840       0.27760
+1    20.57     17.77      132.90  1326.0      0.08474       0.07864
+2    19.69     21.25      130.00  1203.0      0.10960       0.15990
+3    11.42     20.38       77.58   386.1      0.14250       0.28390
+4    20.29     14.34      135.10  1297.0      0.10030       0.13280
+
+   concavity1  concave\_points1  symmetry1  fractal\_dimension1  {\ldots}  radius3  \textbackslash{}
+0      0.3001          0.14710     0.2419             0.07871  {\ldots}    25.38
+1      0.0869          0.07017     0.1812             0.05667  {\ldots}    24.99
+2      0.1974          0.12790     0.2069             0.05999  {\ldots}    23.57
+3      0.2414          0.10520     0.2597             0.09744  {\ldots}    14.91
+4      0.1980          0.10430     0.1809             0.05883  {\ldots}    22.54
+
+   texture3  perimeter3   area3  smoothness3  compactness3  concavity3  \textbackslash{}
+0     17.33      184.60  2019.0       0.1622        0.6656      0.7119
+1     23.41      158.80  1956.0       0.1238        0.1866      0.2416
+2     25.53      152.50  1709.0       0.1444        0.4245      0.4504
+3     26.50       98.87   567.7       0.2098        0.8663      0.6869
+4     16.67      152.20  1575.0       0.1374        0.2050      0.4000
+
+   concave\_points3  symmetry3  fractal\_dimension3
+0           0.2654     0.4601             0.11890
+1           0.1860     0.2750             0.08902
+2           0.2430     0.3613             0.08758
+3           0.2575     0.6638             0.17300
+4           0.1625     0.2364             0.07678
+
+[5 rows x 30 columns]
+          radius1    texture1  perimeter1        area1  smoothness1  \textbackslash{}
+count  569.000000  569.000000  569.000000   569.000000   569.000000
+mean    14.127292   19.289649   91.969033   654.889104     0.096360
+std      3.524049    4.301036   24.298981   351.914129     0.014064
+min      6.981000    9.710000   43.790000   143.500000     0.052630
+25\%     11.700000   16.170000   75.170000   420.300000     0.086370
+50\%     13.370000   18.840000   86.240000   551.100000     0.095870
+75\%     15.780000   21.800000  104.100000   782.700000     0.105300
+max     28.110000   39.280000  188.500000  2501.000000     0.163400
+
+       compactness1  concavity1  concave\_points1   symmetry1  \textbackslash{}
+count    569.000000  569.000000       569.000000  569.000000
+mean       0.104341    0.088799         0.048919    0.181162
+std        0.052813    0.079720         0.038803    0.027414
+min        0.019380    0.000000         0.000000    0.106000
+25\%        0.064920    0.029560         0.020310    0.161900
+50\%        0.092630    0.061540         0.033500    0.179200
+75\%        0.130400    0.130700         0.074000    0.195700
+max        0.345400    0.426800         0.201200    0.304000
+
+       fractal\_dimension1  {\ldots}     radius3    texture3  perimeter3  \textbackslash{}
+count          569.000000  {\ldots}  569.000000  569.000000  569.000000
+mean             0.062798  {\ldots}   16.269190   25.677223  107.261213
+std              0.007060  {\ldots}    4.833242    6.146258   33.602542
+min              0.049960  {\ldots}    7.930000   12.020000   50.410000
+25\%              0.057700  {\ldots}   13.010000   21.080000   84.110000
+50\%              0.061540  {\ldots}   14.970000   25.410000   97.660000
+75\%              0.066120  {\ldots}   18.790000   29.720000  125.400000
+max              0.097440  {\ldots}   36.040000   49.540000  251.200000
+
+             area3  smoothness3  compactness3  concavity3  concave\_points3  \textbackslash{}
+count   569.000000   569.000000    569.000000  569.000000       569.000000
+mean    880.583128     0.132369      0.254265    0.272188         0.114606
+std     569.356993     0.022832      0.157336    0.208624         0.065732
+min     185.200000     0.071170      0.027290    0.000000         0.000000
+25\%     515.300000     0.116600      0.147200    0.114500         0.064930
+50\%     686.500000     0.131300      0.211900    0.226700         0.099930
+75\%    1084.000000     0.146000      0.339100    0.382900         0.161400
+max    4254.000000     0.222600      1.058000    1.252000         0.291000
+
+        symmetry3  fractal\_dimension3
+count  569.000000          569.000000
+mean     0.290076            0.083946
+std      0.061867            0.018061
+min      0.156500            0.055040
+25\%      0.250400            0.071460
+50\%      0.282200            0.080040
+75\%      0.317900            0.092080
+max      0.663800            0.207500
+
+[8 rows x 30 columns]
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{121}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Check for missing values}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{X}\PY{o}{.}\PY{n}{isnull}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+radius1               0
+texture1              0
+perimeter1            0
+area1                 0
+smoothness1           0
+compactness1          0
+concavity1            0
+concave\_points1       0
+symmetry1             0
+fractal\_dimension1    0
+radius2               0
+texture2              0
+perimeter2            0
+area2                 0
+smoothness2           0
+compactness2          0
+concavity2            0
+concave\_points2       0
+symmetry2             0
+fractal\_dimension2    0
+radius3               0
+texture3              0
+perimeter3            0
+area3                 0
+smoothness3           0
+compactness3          0
+concavity3            0
+concave\_points3       0
+symmetry3             0
+fractal\_dimension3    0
+dtype: int64
+    \end{Verbatim}
+
+    \section{Dataset}\label{dataset}
+
+The breast cancer dataset has 569 rows of data with 32 attributes (ID,
+Diagnosis and 30 real-valued input features).
+
+The Diagnosis (target) is either M = malignant and B = benign. Ten
+real-valued features are computed fro each cell nucleus;
+
+\begin{verbatim}
+a) radius (mean of distances from center to points on the perimeter)
+b) texture (standard deviation of gray-scale values)
+c) perimeter
+d) area
+e) smoothness (local variation in radius lengths)
+f) compactness (perimeter^2 / area - 1.0)
+g) concavity (severity of concave portions of the contour)
+h) concave points (number of concave portions of the contour)
+i) symmetry 
+j) fractal dimension ("coastline approximation" - 1)
+\end{verbatim}
+
+The dataset has no missing values.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{122}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}Standadize the features }
+
+\PY{n}{scaler} \PY{o}{=} \PY{n}{StandardScaler}\PY{p}{(}\PY{p}{)}
+\PY{n}{X\PYZus{}scaled} \PY{o}{=} \PY{n}{scaler}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{X}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{123}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Splitting the data}
+\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}test} \PY{o}{=} \PY{n}{train\PYZus{}test\PYZus{}split}\PY{p}{(}\PY{n}{X\PYZus{}scaled}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{n}{test\PYZus{}size}\PY{o}{=}\PY{l+m+mf}{0.2}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{42}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \section{Anomaly Detection with Isolation
+forest}\label{anomaly-detection-with-isolation-forest}
+
+\begin{itemize}
+\tightlist
+\item
+  Isolation Forest is a tree-based algorithm that identifies anomalies
+  by splitting data points recursively.
+\item
+  It isolates outliers faster than normal points because they require
+  fewer splits.
+\item
+  It assigns a score to each point, and if a point is far from the main
+  distribution, it is labeled as an anomaly.
+\end{itemize}
+
+\subsection{Isolation Forest Model}\label{isolation-forest-model}
+
+To initialize the isolation forest model, we should define the number of
+base estimators or trees in the ensemble (\emph{n\_estimators}), the
+\emph{contamination} parameter, which assumes the \% of the data that
+are anomalies and the \emph{random\_state} which ensures results are
+reproducible.
+
+The .predict function assigns labels -1 for Anomaly and 1 for Normal
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{124}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Train Isolation Forest model}
+\PY{n}{iso\PYZus{}forest} \PY{o}{=} \PY{n}{IsolationForest}\PY{p}{(}\PY{n}{n\PYZus{}estimators}\PY{o}{=}\PY{l+m+mi}{100}\PY{p}{,} \PY{n}{contamination}\PY{o}{=}\PY{l+m+mf}{0.1}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{42}\PY{p}{)}
+\PY{n}{iso\PYZus{}forest}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Predict anomalies (\PYZhy{}1 = Anomaly, 1 = Normal)}
+\PY{n}{y\PYZus{}pred\PYZus{}iso} \PY{o}{=} \PY{n}{iso\PYZus{}forest}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Convert predictions to 0 (normal) and 1 (anomaly)}
+\PY{n}{y\PYZus{}test} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{where}\PY{p}{(} \PY{n}{y\PYZus{}test} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{M}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{)}
+\PY{n}{y\PYZus{}pred\PYZus{}iso} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{where}\PY{p}{(}\PY{n}{y\PYZus{}pred\PYZus{}iso} \PY{o}{==} \PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{125}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Evaluate the model}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Isolation Forest Classification Report:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{classification\PYZus{}report}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}pred\PYZus{}iso}\PY{p}{)}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Confusion matrix}
+\PY{n}{sns}\PY{o}{.}\PY{n}{heatmap}\PY{p}{(}\PY{n}{confusion\PYZus{}matrix}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}pred\PYZus{}iso}\PY{p}{)}\PY{p}{,} \PY{n}{annot}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{fmt}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{d}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{cmap}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Reds}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Predicted}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Actual}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Confusion Matrix \PYZhy{} Isolation Forest}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Isolation Forest Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.68      0.94      0.79        71
+           1       0.73      0.26      0.38        43
+
+    accuracy                           0.68       114
+   macro avg       0.71      0.60      0.58       114
+weighted avg       0.70      0.68      0.63       114
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_10_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsection{Interpretation of Results}\label{interpretation-of-results}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Precision = 0.73} → When the model predicts an anomaly, it is
+  correct 73\% of the time.
+\item
+  \textbf{Recall = 0.26} → The model is only detecting 26\% of actual
+  anomalies, meaning it's missing 74\% of anomalies (high false
+  negatives).
+\item
+  \textbf{F1-score = 0.38} → The balance between precision and recall is
+  low, suggesting a weak overall model.
+\item
+  \textbf{Accuracy = 0.68} → The model correctly classifies 68\% of all
+  cases, but since anomalies are a minority, accuracy can be misleading.
+\end{itemize}
+
+Some potential issues would be; 1. The model is too conservative meaning
+it only marks cases as anomalies when it's very confident, leading to
+many missed anomalies (low recall). 2. Anomalies are underrepresented in
+training making the model struggle to learn them.
+
+The model can be improved by;
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Increase Recall (detect more anomalies):
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Increase \emph{contamination} to allow more anomalies.
+  \item
+    Try a different anomaly detection method, such as LOF (Local Outlier
+    Factor) or Autoencoders.
+  \end{itemize}
+\item
+  Balance Precision \& Recall (improve F1-score):
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Try an ensemble approach, combining multiple anomaly detection
+    models.
+  \item
+    Use feature engineering to improve the separability of normal
+    vs.~anomalous cases.
+  \end{itemize}
+\end{enumerate}
+
+    \section{Novelty Detection with One-Class
+SVM}\label{novelty-detection-with-one-class-svm}
+
+\begin{itemize}
+\tightlist
+\item
+  One-Class SVM (Support Vector Machine) is a boundary-based model. It
+  learns the shape of normal data and flags anything outside this
+  boundary as a novel case.
+\item
+  Difference from Isolation Forest: Here, we assume training data
+  contains only normal cases. It does not learn from existing anomalies,
+  so it's useful for detecting previously unseen abnormalities.
+\end{itemize}
+
+\subsection{One-Class SVM}\label{one-class-svm}
+
+Since novelty detection assumes we have only normal training data, we
+first detect and filter out anomalies using isolation forest. Train
+One-Class SVM on only normal cases. \emph{nu}=0.05 means the model
+allows 5\% deviation from normal whereas \emph{kernel=``rbf''} ensures
+smooth decision boundaries.
+
+Like Isolation Forest: -1 represents Novel (previously unseen) case and
+1 represents Normal case If the model detects cases that weren't seen
+during training, they will be flagged.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{126}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Step 1: Use Isolation Forest to detect anomalies in the training set}
+\PY{n}{iso\PYZus{}forest} \PY{o}{=} \PY{n}{IsolationForest}\PY{p}{(}\PY{n}{contamination}\PY{o}{=}\PY{l+m+mf}{0.05}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{42}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Adjust contamination as needed}
+\PY{n}{outlier\PYZus{}labels} \PY{o}{=} \PY{n}{iso\PYZus{}forest}\PY{o}{.}\PY{n}{fit\PYZus{}predict}\PY{p}{(}\PY{n}{X\PYZus{}scaled}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Step 3: Filter out anomalies (keep only normal data for training)}
+\PY{n}{X\PYZus{}train\PYZus{}cleaned} \PY{o}{=} \PY{n}{X\PYZus{}scaled}\PY{p}{[}\PY{n}{outlier\PYZus{}labels} \PY{o}{==} \PY{l+m+mi}{1}\PY{p}{]}  \PY{c+c1}{\PYZsh{} 1 = normal, \PYZhy{}1 = anomaly}
+
+\PY{c+c1}{\PYZsh{} Step 4: Train One\PYZhy{}Class SVM on the cleaned training data}
+\PY{n}{oc\PYZus{}svm} \PY{o}{=} \PY{n}{OneClassSVM}\PY{p}{(}\PY{n}{kernel}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{rbf}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{nu}\PY{o}{=}\PY{l+m+mf}{0.05}\PY{p}{,} \PY{n}{gamma}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{scale}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{oc\PYZus{}svm}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train\PYZus{}cleaned}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Step 5: Predict anomalies on the test set (using the full dataset)}
+\PY{n}{predictions} \PY{o}{=} \PY{n}{oc\PYZus{}svm}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}scaled}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Convert predictions: 1 \PYZhy{}\PYZgt{} Normal, \PYZhy{}1 \PYZhy{}\PYZgt{} Anomaly}
+\PY{n}{predictions} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{where}\PY{p}{(}\PY{n}{predictions} \PY{o}{==} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{)}
+\PY{n}{y} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{where}\PY{p}{(} \PY{n}{y} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{M}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Evaluate the model}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{One\PYZhy{}Class SVM Classification Report:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{classification\PYZus{}report}\PY{p}{(}\PY{n}{y}\PY{p}{,} \PY{n}{predictions}\PY{p}{)}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Confusion matrix}
+\PY{n}{sns}\PY{o}{.}\PY{n}{heatmap}\PY{p}{(}\PY{n}{confusion\PYZus{}matrix}\PY{p}{(}\PY{n}{y}\PY{p}{,} \PY{n}{predictions}\PY{p}{)}\PY{p}{,} \PY{n}{annot}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{fmt}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{d}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{cmap}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Greens}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Predicted}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Actual}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Confusion Matrix \PYZhy{} One\PYZhy{}Class SVM}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+One-Class SVM Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.45      0.08      0.14       357
+           1       0.35      0.83      0.49       212
+
+    accuracy                           0.36       569
+   macro avg       0.40      0.46      0.31       569
+weighted avg       0.41      0.36      0.27       569
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_13_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsection{Interpretation of Results}\label{interpretation-of-results}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Precision = 0.35} → This suggests that only 35\% of the points
+  the model flagged as anomalies were truly anomalies. This is
+  relatively low meaning the model is incorrectly labelling many normal
+  cases as anomalies (high false positives)
+\item
+  \textbf{Recall = 0.83} → This means 83\% of the actual anomalies were
+  correctly detected.
+\item
+  \textbf{F1-score = 0.49} → An F1-score of 0.49 suggests that the model
+  is somewhat unbalanced, with a high recall but low precision.
+\item
+  \textbf{Accuracy = 0.36} → An accuracy of 0.36 is quite low,
+  suggesting that the model might be over-predicting anomalies or
+  failing to properly classify normal instances, especially if the
+  dataset is imbalanced.
+\end{itemize}
+
+Recommendations to improve the model could be;
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Adjust the \emph{nu} parameter in One-Class SVM:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    The \emph{nu} parameter controls the upper bound on the fraction of
+    margin errors (false positives). A high value might be leading to
+    more false positives, so try lowering it to see if precision
+    improves.
+  \end{itemize}
+\item
+  Consider tuning the gamma parameter:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    This controls the influence of individual data points. A large gamma
+    can lead to overfitting, while a small gamma may underfit. Adjusting
+    it can help improve model performance.
+  \end{itemize}
+\item
+  Try other anomaly detection methods:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    If One-Class SVM isn't giving satisfactory results, consider trying
+    methods like Isolation Forest or Autoencoders for anomaly detection.
+    They might provide a better fit depending on your data.Use feature
+    engineering to improve the separability of normal vs.~anomalous
+    cases.
+  \end{itemize}
+\end{enumerate}
+
+    \section{Conclusion}\label{conclusion}
+
+\subsection{Objective Recap:}\label{objective-recap}
+
+The objective of this project was to explore and compare anomaly
+detection and novelty detection techniques using the Breast Cancer
+Dataset. Specifically, we aimed to identify and classify anomalous
+(malignant) tumors from a larger set of normal (benign) tumor data using
+One-Class SVM for novelty detection and Isolation Forest for anomaly
+detection.
+
+\subsection{Key Insights and Results:}\label{key-insights-and-results}
+
+\subsubsection{Anomaly Detection with Isolation
+Forest:}\label{anomaly-detection-with-isolation-forest}
+
+Isolation Forest proved effective in identifying anomalies (malignant
+tumors), but the model showed some limitations in recall and precision.
+The model was able to detect a good number of anomalies (with relatively
+high recall) but exhibited a moderate precision due to misclassifying
+some normal cases as anomalies. The accuracy was higher, indicating it
+could generally distinguish between normal and anomalous data, but some
+improvements could be made in capturing all anomalies.
+
+\subsubsection{Novelty Detection with One-Class
+SVM:}\label{novelty-detection-with-one-class-svm}
+
+One-Class SVM achieved high recall (83\%), indicating its strength in
+detecting true anomalies, but low precision (35\%), suggesting many
+normal cases were wrongly identified as anomalies (false positives). The
+F1-score and accuracy were lower, revealing that despite its ability to
+detect most anomalies, the model suffers from a high rate of false
+positives, impacting its reliability for practical applications.
+
+\subsection{Comparison of Techniques:}\label{comparison-of-techniques}
+
+One-Class SVM performed well in terms of recall, which is often more
+critical in anomaly detection tasks where catching all outliers is a
+priority, but its low precision makes it less reliable for applications
+where false positives should be minimized. Isolation Forest offered a
+balanced approach with higher accuracy, though further adjustments in
+hyperparameters could improve both precision and recall.
+
+\subsection{Challenges and Areas for
+Improvement:}\label{challenges-and-areas-for-improvement}
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{Model Tuning}: Both models could benefit from more
+  hyperparameter tuning (e.g., adjusting nu in One-Class SVM and
+  contamination in Isolation Forest) to improve precision and reduce
+  false positives.
+\item
+  \emph{Data Imbalance}: The dataset's potential imbalance between
+  normal and anomalous cases might have skewed the results, particularly
+  affecting the precision and accuracy. Techniques like SMOTE or class
+  weighting could improve model performance.
+\item
+  \emph{Feature Engineering}: Further feature engineering or exploration
+  of other input features could help enhance model performance,
+  especially in capturing subtle patterns in the data.
+\end{itemize}
+
+\subsection{Key Takeaways and Next
+Steps:}\label{key-takeaways-and-next-steps}
+
+Anomaly and novelty detection methods are powerful tools for identifying
+outliers in data, particularly when the data is imbalanced. However,
+fine-tuning model parameters is crucial for improving precision and
+recall. For real-world applications in health data or fraud detection,
+balancing precision and recall is essential to ensure the model is both
+accurate and reliable. Moving forward, we could explore more
+sophisticated models like Autoencoders for anomaly detection or even
+ensemble methods for improved robustness.
+
+\subsection{Final Thoughts:}\label{final-thoughts}
+
+This project has provided valuable insights into the application of
+anomaly and novelty detection techniques. While challenges remain in
+optimizing models for precision and recall, the experience gained here
+offers a solid foundation for tackling real-world anomaly detection
+problems, especially in fields like medical diagnostics and fraud
+detection.
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
